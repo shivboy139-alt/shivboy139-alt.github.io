@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -355,6 +354,79 @@ h1, h2 {
   min-height: 18px;
 }
 
+/* DESKTOP DRAG & DROP OVERLAY */
+
+.drop-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  background: rgba(5, 5, 12, .90);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 3px dashed #a77cff;
+  pointer-events: none;
+}
+
+.drop-overlay.show {
+  display: flex;
+}
+
+.drop-panel {
+  width: min(600px, 100%);
+  padding: 55px 25px;
+  text-align: center;
+  background: linear-gradient(145deg, #21113d, #081b35);
+  border: 1px solid #a77cff;
+  box-shadow:
+    0 0 25px #8950ff88,
+    inset 0 0 30px #266eff22;
+  animation: dropPulse 1.5s ease-in-out infinite alternate;
+}
+
+.drop-symbol {
+  font-size: 65px;
+  color: #c4a2ff;
+  margin-bottom: 20px;
+}
+
+.drop-panel h2 {
+  color: #fff;
+  font-size: clamp(22px, 5vw, 35px);
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.drop-panel p {
+  color: #c4b6df;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.drop-formats {
+  display: inline-block;
+  margin-top: 22px;
+  padding: 9px 15px;
+  border: 1px solid #9560ff88;
+  color: #bfa3ff;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+@keyframes dropPulse {
+  from {
+    box-shadow: 0 0 20px #8950ff55;
+    border-color: #8950ff;
+  }
+  to {
+    box-shadow: 0 0 45px #168bff99;
+    border-color: #168bff;
+  }
+}
+
 /* JOURNEY */
 
 .journey {
@@ -487,6 +559,10 @@ footer {
   .delete-photo {
     padding: 7px;
     font-size: 9px;
+  }
+
+  .drop-panel {
+    padding: 40px 18px;
   }
 }
 </style>
@@ -675,7 +751,8 @@ footer {
 
       <p>
         Add your favourite pictures directly from your device.
-        No coding required.
+        No coding required.<br>
+        Desktop: Drag and drop photos anywhere on this page.
       </p>
     </div>
 
@@ -707,7 +784,7 @@ footer {
 
       <p>
         Your photos will appear here.<br>
-        Press ADD PHOTO to start your collection.
+        Press ADD PHOTO or drag photos from your computer.
       </p>
 
     </div>
@@ -791,12 +868,37 @@ footer {
   + ADD PHOTO
 </button>
 
+<!-- DRAG & DROP OVERLAY -->
+
+<div
+  class="drop-overlay"
+  id="dropOverlay"
+  aria-hidden="true"
+>
+  <div class="drop-panel">
+
+    <div class="drop-symbol">✧</div>
+
+    <h2>DROP YOUR PHOTOS HERE</h2>
+
+    <p>
+      Release your photos to add them<br>
+      directly to your universe.
+    </p>
+
+    <div class="drop-formats">
+      JPG · JPEG · PNG · WEBP · GIF
+    </div>
+
+  </div>
+</div>
+
 <script>
 
-/* ===================================
+/* =========================================
    MY UNIVERSE - PERSONAL PHOTO SYSTEM
-   Photos are stored in IndexedDB.
-   =================================== */
+   IndexedDB + Desktop Drag & Drop
+   ========================================= */
 
 const DB_NAME = "MyUniversePersonalGallery";
 const DB_VERSION = 1;
@@ -804,14 +906,15 @@ const STORE_NAME = "photos";
 
 const photoInput = document.getElementById("photoInput");
 const photoGrid = document.getElementById("photoGrid");
-const emptyGallery = document.getElementById("emptyGallery");
 const uploadStatus = document.getElementById("uploadStatus");
 
 const addPhotoBtn = document.getElementById("addPhotoBtn");
 const floatingUploadBtn = document.getElementById("floatingUploadBtn");
+const dropOverlay = document.getElementById("dropOverlay");
 
 let dbPromise = null;
 let activeImageURLs = [];
+let dragDepth = 0;
 
 /* OPEN DATABASE */
 
@@ -825,6 +928,7 @@ function openDatabase() {
 
     if (!window.indexedDB) {
       reject(new Error("Your browser does not support IndexedDB."));
+      dbPromise = null;
       return;
     }
 
@@ -851,7 +955,16 @@ function openDatabase() {
     };
 
     request.onsuccess = function(event) {
-      resolve(event.target.result);
+
+      const database = event.target.result;
+
+      database.onversionchange = function() {
+        database.close();
+        dbPromise = null;
+      };
+
+      resolve(database);
+
     };
 
     request.onerror = function() {
@@ -862,6 +975,22 @@ function openDatabase() {
   });
 
   return dbPromise;
+}
+
+/* CHECK IMAGE FILE */
+
+function isImageFile(file) {
+
+  if (!file) return false;
+
+  const validImageExtensions =
+    /\.(jpg|jpeg|png|gif|webp|bmp|avif|svg)$/i;
+
+  return (
+    file.type.startsWith("image/") ||
+    validImageExtensions.test(file.name)
+  );
+
 }
 
 /* SAVE PHOTOS */
@@ -879,28 +1008,30 @@ async function savePhotos(files) {
 
     const store = transaction.objectStore(STORE_NAME);
 
-    for (const file of files) {
-
-      if (!file.type.startsWith("image/")) {
-        continue;
-      }
+    files.forEach(file => {
 
       store.add({
 
         name: file.name,
-        type: file.type,
+        type: file.type || "image/*",
         blob: file,
         createdAt: Date.now()
 
       });
 
-    }
+    });
 
-    transaction.oncomplete = () => resolve();
+    transaction.oncomplete = function() {
+      resolve(files.length);
+    };
 
-    transaction.onerror = () => reject(transaction.error);
+    transaction.onerror = function() {
+      reject(transaction.error);
+    };
 
-    transaction.onabort = () => reject(transaction.error);
+    transaction.onabort = function() {
+      reject(transaction.error || new Error("Upload was cancelled."));
+    };
 
   });
 
@@ -923,7 +1054,7 @@ async function getPhotos() {
 
     const request = store.getAll();
 
-    request.onsuccess = () => {
+    request.onsuccess = function() {
 
       const photos = request.result || [];
 
@@ -933,7 +1064,9 @@ async function getPhotos() {
 
     };
 
-    request.onerror = () => reject(request.error);
+    request.onerror = function() {
+      reject(request.error);
+    };
 
   });
 
@@ -954,9 +1087,13 @@ async function deletePhoto(id) {
 
     transaction.objectStore(STORE_NAME).delete(id);
 
-    transaction.oncomplete = () => resolve();
+    transaction.oncomplete = function() {
+      resolve();
+    };
 
-    transaction.onerror = () => reject(transaction.error);
+    transaction.onerror = function() {
+      reject(transaction.error);
+    };
 
   });
 
@@ -1003,7 +1140,7 @@ async function renderGallery() {
         <h3>YOUR GALLERY IS WAITING.</h3>
         <p>
           Your photos will appear here.<br>
-          Press ADD PHOTO to start your collection.
+          Press ADD PHOTO or drag photos from your computer.
         </p>
       `;
 
@@ -1091,7 +1228,67 @@ async function renderGallery() {
 
 }
 
-/* OPEN PHOTO PICKER */
+/* =========================================
+   ADD PHOTOS - COMMON UPLOAD FUNCTION
+   Works for both file picker and drag/drop.
+   ========================================= */
+
+async function uploadPhotos(fileList) {
+
+  const files = Array.from(fileList || []);
+
+  if (files.length === 0) {
+    return;
+  }
+
+  const imageFiles = files.filter(isImageFile);
+  const rejectedCount = files.length - imageFiles.length;
+
+  if (imageFiles.length === 0) {
+
+    showStatus("Please select or drop image files only.");
+
+    return;
+
+  }
+
+  showStatus(
+    "Saving " + imageFiles.length + " photo(s)..."
+  );
+
+  try {
+
+    await savePhotos(imageFiles);
+
+    await renderGallery();
+
+    let message =
+      imageFiles.length +
+      (imageFiles.length === 1
+        ? " photo added to your gallery."
+        : " photos added to your gallery.");
+
+    if (rejectedCount > 0) {
+      message += " " + rejectedCount + " non-image file(s) ignored.";
+    }
+
+    showStatus(message);
+
+  } catch (error) {
+
+    console.error(error);
+
+    showStatus(
+      "Could not save photos. Your browser storage may be full."
+    );
+
+  }
+
+}
+
+/* =========================================
+   OPEN PHOTO PICKER
+   ========================================= */
 
 function openPhotoPicker() {
   photoInput.click();
@@ -1111,54 +1308,147 @@ floatingUploadBtn.addEventListener(
 
 photoInput.addEventListener("change", async function(event) {
 
-  const files = Array.from(event.target.files || []);
+  const files = event.target.files;
 
-  if (files.length === 0) {
-    return;
-  }
-
-  const imageFiles = files.filter(file =>
-    file.type.startsWith("image/")
-  );
-
-  if (imageFiles.length === 0) {
-
-    showStatus("Please select image files.");
-
-    photoInput.value = "";
-
-    return;
-
-  }
-
-  showStatus("Saving your photos...");
-
-  try {
-
-    await savePhotos(imageFiles);
-
-    await renderGallery();
-
-    showStatus(
-      imageFiles.length +
-      (imageFiles.length === 1
-        ? " photo added to your gallery."
-        : " photos added to your gallery.")
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    showStatus(
-      "Could not save photos. Your browser storage may be full."
-    );
-
-  }
+  await uploadPhotos(files);
 
   // Allows selecting the same photo again later.
-
   photoInput.value = "";
+
+});
+
+/* =========================================
+   DESKTOP DRAG & DROP SYSTEM
+   ========================================= */
+
+/* CHECK IF THE DRAGGED ITEM IS A FILE */
+
+function hasDraggedFiles(event) {
+
+  const types = event.dataTransfer &&
+                event.dataTransfer.types;
+
+  if (!types) return false;
+
+  return Array.from(types).includes("Files");
+
+}
+
+/* SHOW DROP OVERLAY */
+
+function showDropOverlay() {
+
+  dropOverlay.classList.add("show");
+
+  dropOverlay.setAttribute("aria-hidden", "false");
+
+}
+
+/* HIDE DROP OVERLAY */
+
+function hideDropOverlay() {
+
+  dropOverlay.classList.remove("show");
+
+  dropOverlay.setAttribute("aria-hidden", "true");
+
+}
+
+/* DRAG ENTER */
+
+window.addEventListener("dragenter", function(event) {
+
+  if (!hasDraggedFiles(event)) return;
+
+  event.preventDefault();
+
+  dragDepth++;
+
+  showDropOverlay();
+
+});
+
+/* DRAG OVER */
+
+window.addEventListener("dragover", function(event) {
+
+  if (!hasDraggedFiles(event)) return;
+
+  event.preventDefault();
+
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = "copy";
+  }
+
+  showDropOverlay();
+
+});
+
+/* DRAG LEAVE */
+
+window.addEventListener("dragleave", function(event) {
+
+  if (!hasDraggedFiles(event)) return;
+
+  event.preventDefault();
+
+  dragDepth--;
+
+  if (dragDepth <= 0) {
+
+    dragDepth = 0;
+
+    hideDropOverlay();
+
+  }
+
+});
+
+/* DROP FILES */
+
+window.addEventListener("drop", async function(event) {
+
+  if (!hasDraggedFiles(event)) return;
+
+  // Prevent the browser from opening the dropped image.
+  event.preventDefault();
+  event.stopPropagation();
+
+  dragDepth = 0;
+
+  hideDropOverlay();
+
+  const droppedFiles = event.dataTransfer.files;
+
+  await uploadPhotos(droppedFiles);
+
+});
+
+/* PREVENT DEFAULT BROWSER FILE OPENING */
+
+document.addEventListener("dragover", function(event) {
+
+  if (hasDraggedFiles(event)) {
+    event.preventDefault();
+  }
+
+});
+
+document.addEventListener("drop", function(event) {
+
+  if (hasDraggedFiles(event)) {
+    event.preventDefault();
+  }
+
+});
+
+/* RESET OVERLAY IF WINDOW LOSES FOCUS */
+
+window.addEventListener("blur", function() {
+
+  dragDepth = 0;
+
+  hideDropOverlay();
 
 });
 
