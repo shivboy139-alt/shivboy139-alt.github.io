@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Universe</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #080d14;
+  color: #f4f6ff;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  padding: 22px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #253044;
+}
+
+.logo {
+  color: #67d5ff;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+nav a {
+  color: #c4cddd;
+  text-decoration: none;
+  margin-left: 18px;
+  font-size: 14px;
+}
+
+.hero {
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 70px 10%;
+  background: radial-gradient(circle at 80% 40%, #12304a, #080d14 60%);
+}
+
+.hero p {
+  color: #67d5ff;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: clamp(48px, 9vw, 90px);
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+
+.hero h1 span {
+  color: #67d5ff;
+}
+
+.hero h3 {
+  color: #aab8ca;
+  font-weight: normal;
+}
+
+section {
+  padding: 65px 10%;
+}
+
+section h2 {
+  font-size: 32px;
+  margin-bottom: 25px;
+  color: #67d5ff;
+}
+
+.card {
+  background: #111b29;
+  border: 1px solid #26374c;
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 18px;
+}
+
+.card h3 {
+  margin-bottom: 12px;
+}
+
+.card p {
+  color: #b8c4d5;
+  line-height: 1.7;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.photo {
+  min-height: 180px;
+  border-radius: 14px;
+  border: 1px dashed #42617d;
+  background: #111b29;
+  display: grid;
+  place-items: center;
+  color: #91a9c2;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #8292a8;
+  border-top: 1px solid #253044;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">MY UNIVERSE.</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#goals">Goals</a>
+    <a href="#gallery">Gallery</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <p>WELCOME TO MY WORLD</p>
+  <h1>MY <span>UNIVERSE.</span></h1>
+  <h3>My thoughts. My dreams. My journey.</h3>
+</div>
+
+<section id="about">
+  <h2>01. About Me</h2>
+  <div class="card">
+    <h3>This is my space.</h3>
+    <p>A place where I share my personality, interests, ideas and journey. More about me coming soon.</p>
+  </div>
+</section>
+
+<section id="goals">
+  <h2>02. Goals & Vision</h2>
+  <div class="card">
+    <h3>Think Big. Build Bigger.</h3>
+    <p>My dreams, future plans and the things I want to achieve.</p>
+  </div>
+</section>
+
+<section id="gallery">
+  <h2>03. My Gallery</h2>
+  <div class="gallery">
+    <div class="photo">Your Photo 01</div>
+    <div class="photo">Your Photo 02</div>
+    <div class="photo">Your Photo 03</div>
+  </div>
+</section>
+
+<section>
+  <h2>04. Creative Lab</h2>
+  <div class="card">
+    <h3>Ideas & Creations</h3>
+    <p>My sketches, edits, experiments and creative projects.</p>
+  </div>
+</section>
+
+<section>
+  <h2>05. Gaming World</h2>
+  <div class="card">
+    <h3>My Gaming Space</h3>
+    <p>Games I play, gaming memories and highlights.</p>
+  </div>
+</section>
+
+<footer>
+  © 2026 My Universe | Made by Me.
+</footer>
+
+</body>
+</html>
