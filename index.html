@@ -4,1242 +4,311 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080810">
-<title>MY UNIVERSE — Built Different</title>
+<title>MY UNIVERSE | Shiv</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --bg: #080810;
-  --surface: #11111d;
-  --surface-2: #171729;
-  --white: #f5f3ff;
-  --muted: #9997ae;
-  --purple: #a855f7;
-  --blue: #36b9ff;
-  --line: rgba(255,255,255,.12);
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:#050509;
+  color:#fff;
+  font-family:Inter,sans-serif;
+  overflow-x:hidden;
 }
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 90px;
-}
-
-body {
-  background: var(--bg);
-  color: var(--white);
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  font: inherit;
-}
-
-::selection {
-  background: var(--purple);
-  color: white;
-}
-
-.container {
-  width: min(1180px, 90%);
-  margin: auto;
-}
-
-.gradient {
-  background: linear-gradient(100deg, #c084fc, #46c6ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.noise {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 10;
-  opacity: .035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
-}
-
-.ambient {
-  position: fixed;
-  width: 450px;
-  height: 450px;
-  border-radius: 50%;
-  filter: blur(150px);
-  opacity: .12;
-  z-index: -1;
-  pointer-events: none;
-}
-
-.ambient.purple {
-  background: #922ce9;
-  left: -240px;
-  top: 15%;
-}
-
-.ambient.blue {
-  background: #087ecb;
-  right: -230px;
-  top: 55%;
-}
-
-/* HEADER */
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(8,8,16,.88);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--line);
-}
-
-.nav {
-  min-height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 25px;
-}
-
-.logo {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 900;
-  font-size: 28px;
-  letter-spacing: 2px;
-  white-space: nowrap;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.nav-links a {
-  font-size: 10px;
-  letter-spacing: 1.7px;
-  color: var(--muted);
-  transition: .3s;
-}
-
-.nav-links a:hover {
-  color: var(--blue);
-}
-
-/* HERO */
-
-.hero {
-  min-height: 88vh;
-  display: flex;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid var(--line);
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  width: 700px;
-  height: 700px;
-  right: -200px;
-  top: -100px;
-  background: radial-gradient(circle, rgba(115,42,191,.23), transparent 65%);
-  pointer-events: none;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.15fr .85fr;
-  align-items: center;
-  gap: 35px;
-  padding-top: 80px;
-  padding-bottom: 80px;
-  position: relative;
-}
-
-.eyebrow {
-  color: var(--blue);
-  font-size: 11px;
-  letter-spacing: 5px;
-  font-weight: 700;
-  margin-bottom: 25px;
-}
-
-.hero h1 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(65px, 10vw, 125px);
-  font-weight: 900;
-  line-height: .83;
-  letter-spacing: -2px;
-  text-transform: uppercase;
-}
-
-.hero h1 .line-two {
-  display: block;
-  margin-top: 12px;
-}
-
-.hero h1 .outline {
-  color: transparent;
-  -webkit-text-stroke: 1.5px #c9c6dc;
-}
-
-.hero-description {
-  max-width: 520px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 2;
-  margin-top: 30px;
-}
-
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 13px;
-  margin-top: 32px;
-}
-
-.btn {
-  display: inline-block;
-  padding: 15px 23px;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  transition: .3s;
-  clip-path: polygon(0 0, 94% 0, 100% 25%, 100% 100%, 6% 100%, 0 75%);
-}
-
-.btn-primary {
-  background: linear-gradient(100deg, #963be9, #247adf);
-  color: white;
-}
-
-.btn-secondary {
-  border: 1px solid #504267;
-  background: rgba(255,255,255,.04);
-  color: white;
-}
-
-.btn:hover {
-  transform: translateY(-4px);
-  filter: brightness(1.2);
-}
-
-/* PROFILE FRAME */
-
-.profile-wrap {
-  position: relative;
-  max-width: 390px;
-  width: 100%;
-  justify-self: end;
-  margin-right: 20px;
-}
-
-.profile-frame {
-  aspect-ratio: 4 / 5;
-  position: relative;
-  overflow: hidden;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
   background:
-    linear-gradient(145deg, #47236e, #10243d 55%, #080810);
-  border: 1px solid rgba(168,85,247,.6);
-  box-shadow: 22px 22px 0 rgba(70,35,112,.18);
+  radial-gradient(circle at 15% 20%,#4310a533,transparent 35%),
+  radial-gradient(circle at 85% 65%,#0759a533,transparent 35%);
+  pointer-events:none;
+  z-index:-1;
 }
-
-.profile-frame::before {
-  content: "YOUR PHOTO";
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: rgba(255,255,255,.35);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 35px;
-  font-weight: 800;
-  letter-spacing: 5px;
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 7%;
+  border-bottom:1px solid #ffffff18;
 }
-
-.profile-frame img {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-  object-fit: cover;
-  object-position: center;
-  filter: grayscale(100%) contrast(1.12);
+.logo{
+  font-family:Orbitron,sans-serif;
+  font-weight:900;
+  letter-spacing:3px;
+  color:#b78aff;
 }
-
-.profile-frame img:not([src=""]) {
-  z-index: 2;
+nav a{
+  color:#aaa;
+  text-decoration:none;
+  margin-left:22px;
+  font-size:12px;
+  letter-spacing:1px;
 }
-
-.profile-frame img[src=""] {
-  display: none;
+nav a:hover{color:#b78aff}
+section{padding:100px 9%}
+.tag{
+  color:#a77cff;
+  font-size:12px;
+  letter-spacing:4px;
+  text-transform:uppercase;
 }
-
-.profile-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  background: linear-gradient(145deg, rgba(168,85,247,.17), transparent 45%, rgba(35,130,255,.2));
-  mix-blend-mode: screen;
+h1,h2{font-family:Orbitron,sans-serif}
+.hero{
+  min-height:85vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
 }
-
-.frame-label {
-  position: absolute;
-  bottom: -18px;
-  left: -18px;
-  background: #141421;
-  border: 1px solid rgba(54,185,255,.55);
-  padding: 14px 20px;
-  z-index: 4;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: var(--blue);
-  font-weight: 700;
+.hero h1{
+  font-size:clamp(48px,9vw,110px);
+  line-height:1.02;
+  margin:25px 0;
+  letter-spacing:-5px;
 }
-
-.profile-number {
-  position: absolute;
-  right: -22px;
-  top: 20px;
-  writing-mode: vertical-rl;
-  color: #a98bd2;
-  font-size: 10px;
-  letter-spacing: 4px;
+.hero h1 span{
+  color:transparent;
+  -webkit-text-stroke:1px #a77cff;
 }
-
-/* DIVIDER */
-
-.marquee {
-  border-bottom: 1px solid var(--line);
-  border-top: 1px solid var(--line);
-  overflow: hidden;
-  padding: 20px 0;
-  background: rgba(255,255,255,.025);
+.hero p{
+  color:#aaa;
+  max-width:550px;
+  line-height:1.8;
 }
-
-.marquee-track {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 20px 35px;
-  color: #c9b4ed;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: 3px;
+.line{
+  width:90px;
+  height:3px;
+  background:linear-gradient(90deg,#9b5cff,#168bff);
+  margin:25px 0;
 }
-
-/* SECTIONS */
-
-section {
-  padding: 110px 0;
-  position: relative;
+.btn{
+  display:inline-block;
+  margin-top:30px;
+  padding:14px 25px;
+  border:1px solid #9560ff;
+  color:white;
+  text-decoration:none;
+  letter-spacing:2px;
+  font-size:12px;
 }
-
-.section-top {
-  margin-bottom: 42px;
-  max-width: 720px;
+.btn:hover{
+  background:#9560ff;
+  box-shadow:0 0 25px #9560ff77;
 }
-
-.section-no {
-  color: var(--blue);
-  font-size: 10px;
-  letter-spacing: 4px;
-  font-weight: 800;
-  margin-bottom: 14px;
+.section-title{
+  font-size:clamp(30px,5vw,55px);
+  margin:15px 0 35px;
 }
-
-.section-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: clamp(45px, 7vw, 80px);
-  line-height: .94;
-  letter-spacing: -1px;
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:45px;
+  align-items:center;
 }
-
-.section-description {
-  margin-top: 20px;
-  color: var(--muted);
-  line-height: 1.9;
-  font-size: 14px;
-  max-width: 610px;
+.about-grid img{
+  width:100%;
+  border:1px solid #9b5cff66;
+  border-radius:5px;
+  box-shadow:0 0 35px #6e2cff22;
 }
-
-/* ABOUT */
-
-.about-layout {
-  display: grid;
-  grid-template-columns: 1.1fr .9fr;
-  gap: 25px;
+.about-text p{
+  color:#aaa;
+  line-height:1.9;
+  margin:15px 0;
 }
-
-.about-main {
-  background: linear-gradient(135deg, #171326, #101321);
-  border: 1px solid rgba(168,85,247,.3);
-  padding: 38px;
-  position: relative;
-  overflow: hidden;
+.cards{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:25px;
 }
-
-.about-main::after {
-  content: "01";
-  position: absolute;
-  right: -8px;
-  bottom: -60px;
-  color: rgba(168,85,247,.07);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 230px;
-  font-weight: 900;
+.card{
+  background:#ffffff08;
+  border:1px solid #ffffff20;
+  overflow:hidden;
+  transition:.3s;
 }
-
-.about-main h3 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 38px;
-  margin-bottom: 20px;
-  position: relative;
-  z-index: 1;
+.card:hover{
+  transform:translateY(-7px);
+  border-color:#a77cff;
+  box-shadow:0 0 25px #7d3cff33;
 }
-
-.about-main p {
-  position: relative;
-  z-index: 1;
-  color: var(--muted);
-  line-height: 2;
-  font-size: 14px;
+.card img{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+  display:block;
 }
-
-.identity-stack {
-  display: grid;
-  gap: 12px;
+.card-content{padding:25px}
+.card h3{
+  font-family:Orbitron,sans-serif;
+  font-size:20px;
+  margin-bottom:12px;
 }
-
-.identity-item {
-  border-left: 3px solid var(--purple);
-  background: var(--surface);
-  padding: 21px 24px;
+.card p{color:#aaa;line-height:1.7;font-size:14px}
+.journey{
+  border-left:2px solid #8655e8;
+  padding-left:30px;
 }
-
-.identity-item small {
-  display: block;
-  color: var(--blue);
-  letter-spacing: 2px;
-  font-size: 9px;
-  margin-bottom: 8px;
+.journey-item{margin:35px 0}
+.journey-item h3{color:#c4a2ff;margin-bottom:10px}
+.journey-item p{color:#999;line-height:1.7}
+.quote{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(25px,5vw,48px);
+  line-height:1.5;
+  color:#c6a6ff;
+  text-align:center;
+  padding:70px 10%;
+  border-top:1px solid #ffffff18;
+  border-bottom:1px solid #ffffff18;
 }
-
-.identity-item strong {
-  font-size: 15px;
+footer{
+  text-align:center;
+  padding:40px 20px;
+  color:#777;
+  font-size:12px;
+  letter-spacing:2px;
 }
-
-/* BIG STATEMENT */
-
-.statement {
-  background: linear-gradient(100deg, #17102b, #0b1424);
-  border-top: 1px solid rgba(168,85,247,.3);
-  border-bottom: 1px solid rgba(54,185,255,.25);
-  padding: 100px 0;
-  text-align: center;
-}
-
-.statement h2 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(48px, 9vw, 105px);
-  line-height: .95;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.statement p {
-  color: var(--muted);
-  margin-top: 25px;
-  font-size: 11px;
-  letter-spacing: 4px;
-}
-
-/* JOURNEY */
-
-.timeline {
-  margin-left: 12px;
-  padding-left: 35px;
-  border-left: 1px solid #7651a4;
-  display: grid;
-  gap: 32px;
-}
-
-.timeline-item {
-  position: relative;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  padding: 28px;
-}
-
-.timeline-item::before {
-  content: "";
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--blue);
-  box-shadow: 0 0 18px var(--blue);
-  position: absolute;
-  left: -42px;
-  top: 34px;
-}
-
-.timeline-item small {
-  font-size: 9px;
-  letter-spacing: 3px;
-  color: var(--purple);
-  font-weight: 800;
-}
-
-.timeline-item h3 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 29px;
-  margin: 9px 0;
-  text-transform: uppercase;
-}
-
-.timeline-item p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.9;
-}
-
-/* GOALS */
-
-.goal-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 17px;
-}
-
-.goal-card {
-  padding: 30px;
-  min-height: 225px;
-  background: linear-gradient(150deg, #171329, #10121f);
-  border: 1px solid var(--line);
-  position: relative;
-  overflow: hidden;
-  transition: .3s;
-}
-
-.goal-card:hover,
-.work-card:hover,
-.interest-card:hover {
-  transform: translateY(-7px);
-  border-color: rgba(54,185,255,.55);
-}
-
-.goal-card .number {
-  color: rgba(168,85,247,.7);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 35px;
-  font-weight: 900;
-}
-
-.goal-card h3 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 30px;
-  margin: 20px 0 10px;
-  text-transform: uppercase;
-}
-
-.goal-card p {
-  color: var(--muted);
-  line-height: 1.8;
-  font-size: 13px;
-}
-
-/* GALLERY */
-
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-}
-
-.gallery-item {
-  min-height: 260px;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(140deg, #35204e, #122b44);
-  border: 1px solid rgba(168,85,247,.32);
-}
-
-.gallery-item:nth-child(2),
-.gallery-item:nth-child(5) {
-  transform: translateY(25px);
-}
-
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  min-height: 260px;
-  object-fit: cover;
-  display: block;
-  transition: .5s;
-  filter: saturate(.75);
-}
-
-.gallery-item:hover img {
-  transform: scale(1.06);
-  filter: saturate(1.1);
-}
-
-.gallery-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  color: rgba(255,255,255,.65);
-  font-family: 'Barlow Condensed', sans-serif;
-  letter-spacing: 3px;
-  font-size: 19px;
-}
-
-.gallery-placeholder span {
-  font-size: 32px;
-  color: #bc84ff;
-}
-
-.gallery-item.has-image .gallery-placeholder {
-  display: none;
-}
-
-/* CREATIVE WORK */
-
-.work-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 17px;
-}
-
-.work-card {
-  min-height: 210px;
-  padding: 30px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  transition: .3s;
-}
-
-.work-icon {
-  font-size: 30px;
-  margin-bottom: 22px;
-}
-
-.work-card h3 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 31px;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.work-card p {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.8;
-}
-
-/* INTERESTS */
-
-.interest-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-}
-
-.interest-card {
-  padding: 30px;
-  background: linear-gradient(120deg, #171329, #0e1929);
-  border: 1px solid var(--line);
-  transition: .3s;
-}
-
-.interest-card h3 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 32px;
-  text-transform: uppercase;
-  margin: 15px 0 8px;
-}
-
-.interest-card p {
-  color: var(--muted);
-  line-height: 1.8;
-  font-size: 13px;
-}
-
-/* FINAL */
-
-.final-section {
-  text-align: center;
-  padding: 130px 0;
-  overflow: hidden;
-  background: radial-gradient(ellipse at center, rgba(112,40,175,.2), transparent 65%);
-}
-
-.final-section h2 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(50px, 10vw, 110px);
-  font-weight: 900;
-  line-height: .9;
-}
-
-.final-section p {
-  color: var(--muted);
-  margin: 25px auto 0;
-  letter-spacing: 3px;
-  font-size: 11px;
-}
-
-footer {
-  padding: 35px 0;
-  border-top: 1px solid var(--line);
-  text-align: center;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 2;
-}
-
-footer strong {
-  color: white;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 25px;
-  letter-spacing: 2px;
-}
-
-/* MOBILE */
-
-@media(max-width: 850px) {
-  .nav {
-    flex-direction: column;
-    padding: 17px 0;
-  }
-
-  .nav-links {
-    width: 100%;
-    overflow-x: auto;
-    padding: 5px 0 10px;
-    justify-content: flex-start;
-  }
-
-  .nav-links a {
-    white-space: nowrap;
-  }
-
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 65px;
-  }
-
-  .profile-wrap {
-    justify-self: center;
-    width: min(78%, 350px);
-    margin: 0 15px 20px 0;
-  }
-
-  .about-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .goal-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .gallery-item:nth-child(2),
-  .gallery-item:nth-child(5) {
-    transform: none;
-  }
-}
-
-@media(max-width: 520px) {
-  section {
-    padding: 80px 0;
-  }
-
-  .hero {
-    min-height: auto;
-  }
-
-  .hero-grid {
-    padding-top: 85px;
-    padding-bottom: 85px;
-  }
-
-  .hero h1 {
-    font-size: clamp(58px, 15vw, 80px);
-  }
-
-  .gallery,
-  .work-grid,
-  .interest-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .gallery-item,
-  .gallery-item img {
-    min-height: 280px;
-  }
-
-  .about-main {
-    padding: 26px;
-  }
-
-  .statement {
-    padding: 75px 0;
-  }
-
-  .timeline {
-    padding-left: 25px;
-  }
-
-  .timeline-item::before {
-    left: -32px;
-  }
-}
-
-/* ACCESSIBILITY */
-
-@media(prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    transition-duration: .01ms !important;
-    animation-duration: .01ms !important;
-  }
+@media(max-width:700px){
+  nav{padding:18px 5%;flex-wrap:wrap;gap:15px}
+  nav a{margin-left:10px;font-size:10px}
+  section{padding:75px 6%}
+  .about-grid,.cards{grid-template-columns:1fr}
+  .hero h1{letter-spacing:-2px}
+  .card img{height:250px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="noise"></div>
-<div class="ambient purple"></div>
-<div class="ambient blue"></div>
-
-<!-- NAVIGATION -->
-
-<header>
-  <div class="container nav">
-    <a href="#home" class="logo">
-      MY <span class="gradient">UNIVERSE.</span>
-    </a>
-
-    <nav class="nav-links">
-      <a href="#about">IDENTITY</a>
-      <a href="#journey">JOURNEY</a>
-      <a href="#goals">VISION</a>
-      <a href="#gallery">GALLERY</a>
-      <a href="#creative">CREATIONS</a>
-      <a href="#interests">INTERESTS</a>
-    </nav>
+<nav>
+  <div class="logo">MY UNIVERSE.</div>
+  <div>
+    <a href="#home">HOME</a>
+    <a href="#about">ABOUT</a>
+    <a href="#world">MY WORLD</a>
+    <a href="#journey">JOURNEY</a>
   </div>
-</header>
-
-<main>
-
-<!-- HERO -->
+</nav>
 
 <section class="hero" id="home">
-  <div class="container hero-grid">
-
-    <div>
-      <div class="eyebrow">WELCOME TO MY UNIVERSE / 001</div>
-
-      <h1>
-        NOT HERE
-        <span class="line-two outline">TO FIT IN.</span>
-        <span class="line-two gradient">BUILT TO CREATE.</span>
-      </h1>
-
-      <p class="hero-description">
-        I don't follow a template. I explore ideas, create my own
-        path and keep building. This is my space, my identity
-        and my story.
-      </p>
-
-      <div class="hero-buttons">
-        <a href="#about" class="btn btn-primary">DISCOVER MY WORLD ↗</a>
-        <a href="#gallery" class="btn btn-secondary">EXPLORE GALLERY</a>
-      </div>
-    </div>
-
-    <div class="profile-wrap">
-      <div class="profile-frame">
-        <!-- Upload your portrait as images/profile.jpg -->
-        <img src="images/profile.jpg"
-             alt="My profile portrait"
-             onerror="this.style.display='none'">
-      </div>
-
-      <div class="frame-label">PERSONAL IDENTITY / 001</div>
-      <div class="profile-number">ORIGINAL • CREATIVE • DIFFERENT</div>
-    </div>
-
-  </div>
+  <div class="tag">WELCOME TO MY WORLD</div>
+  <h1>NOT HERE<br>TO <span>FIT IN.</span></h1>
+  <div class="line"></div>
+  <p>
+    A mind full of ideas. A world full of possibilities.
+    This is not just a website. This is a little universe
+    built from my thoughts, creativity and dreams.
+  </p>
+  <a href="#about" class="btn">EXPLORE MY UNIVERSE ↘</a>
 </section>
-
-<!-- WORD STRIP -->
-
-<div class="marquee">
-  <div class="container marquee-track">
-    <span>CREATE.</span>
-    <span>EXPLORE.</span>
-    <span>IMAGINE.</span>
-    <span>BUILD.</span>
-    <span>REPEAT.</span>
-  </div>
-</div>
-
-<!-- ABOUT -->
 
 <section id="about">
-  <div class="container">
-
-    <div class="section-top">
-      <div class="section-no">01 / THE IDENTITY</div>
-      <h2 class="section-title">MORE THAN<br><span class="gradient">A PROFILE.</span></h2>
-      <p class="section-description">
-        A personal space built around the things I think about,
-        the things I enjoy and the things I want to create.
+  <div class="tag">01 / THE PERSON BEHIND THE WORLD</div>
+  <h2 class="section-title">BEYOND THE ORDINARY.</h2>
+  <div class="about-grid">
+    <img src="images/Purple%20My%20Universe.png" alt="Purple My Universe">
+    <div class="about-text">
+      <h2>MY UNIVERSE.</h2>
+      <p>
+        Every person has a different world inside their mind.
+        This is mine — a combination of creativity, imagination,
+        curiosity and ambition.
       </p>
-    </div>
-
-    <div class="about-layout">
-      <div class="about-main">
-        <h3>THIS IS MY SPACE.</h3>
-        <p>
-          Welcome to my universe. I am curious about the world,
-          interested in technology and inspired by creativity.
-          I enjoy exploring ideas, learning new things and turning
-          imagination into something real.
-        </p>
-        <br>
-        <p>
-          This website is not a finished story. It grows with me.
-          Every new idea, photograph, project and experience
-          can become a part of it.
-        </p>
-      </div>
-
-      <div class="identity-stack">
-        <div class="identity-item">
-          <small>01 / PERSONALITY</small>
-          <strong>Curious. Independent. Creative.</strong>
-        </div>
-
-        <div class="identity-item">
-          <small>02 / INTERESTS</small>
-          <strong>Technology. Gaming. Art.</strong>
-        </div>
-
-        <div class="identity-item">
-          <small>03 / MINDSET</small>
-          <strong>Learn. Experiment. Improve.</strong>
-        </div>
-
-        <div class="identity-item">
-          <small>04 / DIRECTION</small>
-          <strong>Always exploring what is next.</strong>
-        </div>
-      </div>
+      <p>
+        I believe in creating my own path, exploring new ideas
+        and turning imagination into something real.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- STATEMENT -->
+<section id="world">
+  <div class="tag">02 / MY INTERESTS</div>
+  <h2 class="section-title">INSIDE MY WORLD.</h2>
 
-<div class="statement">
-  <div class="container">
-    <h2>
-      THINK DIFFERENT.<br>
-      <span class="gradient">CREATE YOUR OWN.</span>
-    </h2>
-    <p>NO TEMPLATE. NO LIMITS TO IMAGINATION.</p>
+  <div class="cards">
+
+    <div class="card">
+      <img src="images/The%20Writing.png" alt="The Writing">
+      <div class="card-content">
+        <h3>THE WRITING</h3>
+        <p>
+          Thoughts, stories and ideas.
+          Sometimes a few words can create an entire world.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/The%20Gaming.png" alt="The Gaming">
+      <div class="card-content">
+        <h3>THE GAMING</h3>
+        <p>
+          Strategy, competition and entertainment.
+          Gaming is another part of my universe.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/The%20Vibes.png" alt="The Vibes">
+      <div class="card-content">
+        <h3>THE VIBES</h3>
+        <p>
+          Different moods, different moments.
+          Every vibe has its own story.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images/Purple%20My%20Universe.png" alt="My Universe">
+      <div class="card-content">
+        <h3>MY UNIVERSE</h3>
+        <p>
+          A personal space where my creativity,
+          dreams and ideas come together.
+        </p>
+      </div>
+    </div>
+
   </div>
-</div>
-
-<!-- JOURNEY -->
+</section>
 
 <section id="journey">
-  <div class="container">
+  <div class="tag">03 / THE STORY CONTINUES</div>
+  <h2 class="section-title">MY JOURNEY.</h2>
 
-    <div class="section-top">
-      <div class="section-no">02 / THE STORY</div>
-      <h2 class="section-title">MY <span class="gradient">JOURNEY.</span></h2>
-      <p class="section-description">
-        Every chapter adds something new. This is where
-        I can document my experiences and milestones.
-      </p>
+  <div class="journey">
+    <div class="journey-item">
+      <h3>THE BEGINNING</h3>
+      <p>Every big journey starts with a small idea.</p>
     </div>
-
-    <div class="timeline">
-      <div class="timeline-item">
-        <small>CHAPTER 01</small>
-        <h3>The Beginning</h3>
-        <p>Every journey begins with a question, an idea or a dream.</p>
-      </div>
-
-      <div class="timeline-item">
-        <small>CHAPTER 02</small>
-        <h3>Explore & Learn</h3>
-        <p>Discovering new interests, learning skills and understanding the world.</p>
-      </div>
-
-      <div class="timeline-item">
-        <small>CHAPTER 03</small>
-        <h3>Build & Create</h3>
-        <p>Turning ideas into creative experiments and personal projects.</p>
-      </div>
-
-      <div class="timeline-item">
-        <small>CHAPTER 04</small>
-        <h3>What's Next?</h3>
-        <p>The next chapter is still being written. More to explore, more to create.</p>
-      </div>
+    <div class="journey-item">
+      <h3>THE CREATION</h3>
+      <p>Learning, experimenting and building something of my own.</p>
     </div>
-
-  </div>
-</section>
-
-<!-- GOALS -->
-
-<section id="goals">
-  <div class="container">
-
-    <div class="section-top">
-      <div class="section-no">03 / THE VISION</div>
-      <h2 class="section-title">AIM BEYOND<br><span class="gradient">ORDINARY.</span></h2>
-      <p class="section-description">
-        A collection of goals, ambitions and ideas I want
-        to keep moving towards.
-      </p>
-    </div>
-
-    <div class="goal-grid">
-      <div class="goal-card">
-        <div class="number">01</div>
-        <h3>CREATE</h3>
-        <p>Bring ideas to life through creativity, design and digital projects.</p>
-      </div>
-
-      <div class="goal-card">
-        <div class="number">02</div>
-        <h3>LEARN</h3>
-        <p>Keep exploring technology, new skills and different perspectives.</p>
-      </div>
-
-      <div class="goal-card">
-        <div class="number">03</div>
-        <h3>DISCOVER</h3>
-        <p>Stay curious, explore opportunities and experience new things.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- GALLERY -->
-
-<section id="gallery">
-  <div class="container">
-
-    <div class="section-top">
-      <div class="section-no">04 / THE VISUAL DIARY</div>
-      <h2 class="section-title">MY <span class="gradient">GALLERY.</span></h2>
-      <p class="section-description">
-        Photographs, favourite moments and memories.
-        A visual collection of my world.
-      </p>
-    </div>
-
-    <div class="gallery">
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder"><span>✦</span>PHOTO 01</div>
-        <img src="images/gallery-01.jpg" alt="Gallery photo 1"
-             onload="this.parentElement.classList.add('has-image')"
-             onerror="this.remove()">
-      </div>
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder"><span>✧</span>PHOTO 02</div>
-        <img src="images/gallery-02.jpg" alt="Gallery photo 2"
-             onload="this.parentElement.classList.add('has-image')"
-             onerror="this.remove()">
-      </div>
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder"><span>✦</span>PHOTO 03</div>
-        <img src="images/gallery-03.jpg" alt="Gallery photo 3"
-             onload="this.parentElement.classList.add('has-image')"
-             onerror="this.remove()">
-      </div>
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder"><span>✧</span>PHOTO 04</div>
-        <img src="images/gallery-04.jpg" alt="Gallery photo 4"
-             onload="this.parentElement.classList.add('has-image')"
-             onerror="this.remove()">
-      </div>
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder"><span>✦</span>PHOTO 05</div>
-        <img src="images/gallery-05.jpg" alt="Gallery photo 5"
-             onload="this.parentElement.classList.add('has-image')"
-             onerror="this.remove()">
-      </div>
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder"><span>✧</span>PHOTO 06</div>
-        <img src="images/gallery-06.jpg" alt="Gallery photo 6"
-             onload="this.parentElement.classList.add('has-image')"
-             onerror="this.remove()">
-      </div>
-
+    <div class="journey-item">
+      <h3>WHAT'S NEXT?</h3>
+      <p>The story is still being written. More ideas are waiting to become real.</p>
     </div>
   </div>
 </section>
 
-<!-- CREATIVE LAB -->
-
-<section id="creative">
-  <div class="container">
-
-    <div class="section-top">
-      <div class="section-no">05 / THE CREATIVE SIDE</div>
-      <h2 class="section-title">IDEAS INTO<br><span class="gradient">REALITY.</span></h2>
-      <p class="section-description">
-        A place for the things I make, experiment with
-        and enjoy creating.
-      </p>
-    </div>
-
-    <div class="work-grid">
-
-      <div class="work-card">
-        <div class="work-icon">✦</div>
-        <h3>ART & SKETCHES</h3>
-        <p>Drawings, visual concepts and artistic experiments.</p>
-      </div>
-
-      <div class="work-card">
-        <div class="work-icon">▣</div>
-        <h3>VIDEO & EDITING</h3>
-        <p>Visual storytelling, edits and creative experiments.</p>
-      </div>
-
-      <div class="work-card">
-        <div class="work-icon">⌘</div>
-        <h3>TECH PROJECTS</h3>
-        <p>Websites, digital tools and things I build and explore.</p>
-      </div>
-
-      <div class="work-card">
-        <div class="work-icon">✧</div>
-        <h3>IDEA LAB</h3>
-        <p>Interesting concepts, experiments and future possibilities.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- INTERESTS -->
-
-<section id="interests">
-  <div class="container">
-
-    <div class="section-top">
-      <div class="section-no">06 / BEYOND THE SCREEN</div>
-      <h2 class="section-title">MY <span class="gradient">INTERESTS.</span></h2>
-      <p class="section-description">
-        Different worlds, different interests.
-        All part of the same personality.
-      </p>
-    </div>
-
-    <div class="interest-grid">
-
-      <div class="interest-card">
-        <div class="work-icon">🎮</div>
-        <h3>GAMING WORLD</h3>
-        <p>Games, memorable moments and the gaming experiences I enjoy.</p>
-      </div>
-
-      <div class="interest-card">
-        <div class="work-icon">🎧</div>
-        <h3>MUSIC SPACE</h3>
-        <p>Sounds, moods and music that become part of my day.</p>
-      </div>
-
-      <div class="interest-card">
-        <div class="work-icon">🌌</div>
-        <h3>MINDSPACE</h3>
-        <p>Thoughts, inspiration and ideas that keep me curious.</p>
-      </div>
-
-      <div class="interest-card">
-        <div class="work-icon">⚡</div>
-        <h3>TECH & FUTURE</h3>
-        <p>Technology, innovation and what the future could bring.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ENDING -->
-
-<section class="final-section">
-  <div class="container">
-    <div class="section-no">END OF PAGE / START OF A NEW CHAPTER</div>
-
-    <h2>
-      MY WORLD.<br>
-      <span class="gradient">MY VISION.</span>
-    </h2>
-
-    <p>STAY CURIOUS. KEEP CREATING.</p>
-  </div>
-</section>
-
-</main>
+<div class="quote">
+  "DREAM BEYOND LIMITS.<br>
+  CREATE WITHOUT FEAR."
+</div>
 
 <footer>
-  <div class="container">
-    <strong>MY UNIVERSE.</strong>
-    <p>A personal world, built with imagination.</p>
-    <p>© 2026 MY UNIVERSE</p>
-  </div>
+  MY UNIVERSE © 2026 — BUILT FROM IMAGINATION.
 </footer>
 
 </body>
 </html>
+
